@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main (){
+	int a;
+	
+	printf("Enter Grades: ");
+	scanf("%d",&a);
+	
+	if (a>= 90){
+		printf("EXCELLENT");
+		}
+		else if (a>= 80){
+		printf("GOOD");
+		}		
+		else if (a>= 75){
+		printf("FAIR");
+		}
+	else{
+		printf("FAILED :(4");
+	}
+return 0;
+	
+}
