@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main(){
+	float a,b,result;
+	char op;
+	
+		printf ("Enter two numbers:");
+		scanf ("%f %f", &a,&b);
+		printf ("Enter operator (+,-,/,*):");
+		scanf (" %c", &op);
+		
+			if (op == '+'){
+			result=a+b;
+			printf("The sum is: %.2f", result);
+			}
+				else if (op == '-') {
+				result= a-b;
+				printf("The difference is: %.2f", result);
+				}
+				else if (op == '*'){
+				result= a*b;
+				printf("The product is: %.2f", result);
+				}	
+				else if (op == '/'){
+					if (b !=0){
+						result = a/b;
+						printf("The qoutient is: %.2f", result);
+					}
+					else{
+					printf("BAWAL ZERO TANGA");
+					}
+					
+			}
+			else {
+				printf ("Anuyan teh");	
+					}
+return 0;
+}
