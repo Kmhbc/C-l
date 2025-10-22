@@ -1,0 +1,32 @@
+#include<stdio.h>
+
+int main(){
+	float result, kWh;
+	char a;
+	
+	printf("Kilowatts Used:");
+	scanf("%f", &kWh);
+	printf("Type of Customer (R, C, I): ");
+	scanf(" %c", &a);
+	
+		if(a == 'R'){
+			result = kWh * 10;
+			printf("Your Bill is: %.2f", result);
+		}
+			else if (a =='C'){
+				result= kWh * 15;
+				printf("Your Bill is: %.2f", result);
+			}
+			else if (a=='I'){
+				result= kWh * 20;
+				printf("Your Bill is: %.2f", result);
+			}
+		else{
+		printf("Invalid");
+		}
+		if (kWh>=500){
+			result= result * 0.95;
+			printf ("\nDiscounted Bill: %.2f", result);
+		}	
+	return 0;
+}
