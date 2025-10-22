@@ -1,0 +1,14 @@
+#include<stdio.h>
+
+int main (){
+	float a,b,c,d,e;
+	printf("enter three numbers\n");
+	scanf("%f %f %f",&a,&b,&c);
+
+	d=a+b+c;
+	e=(d/3);
+
+	printf("the sum is %f\n", d);
+	printf("the average is %f\n", e);
+return 0;
+}
