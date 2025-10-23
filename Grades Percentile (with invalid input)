@@ -1,0 +1,31 @@
+#include<stdio.h>
+
+int main (){
+	int a;
+	
+	printf("Enter Grade: ");
+	if (scanf("%d", &a) !=1){
+		printf ("Invalid Grade! Please enter value from 0 to 100");	
+		return 0;
+	}
+	
+	if (a > 100 || a < 0){
+		printf("Invalid Grade! Please enter value from 0 to 100");
+	}
+		else if (a >= 90){
+		printf("Excellent");
+		}		
+		else if (a >= 80 ){
+			printf("Very Good");
+		}	
+		else if (a >= 70){
+			printf("Good");
+		}
+		else if (a >= 60){
+			printf("Needs Improvement");
+		}
+	else {
+		printf("Failed");
+	}
+return 0;
+}
