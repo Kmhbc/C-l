@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main () {
+	int a,h;
+	char EA;
+	
+	printf ("Please enter your Age: ");
+	scanf ("%d", &a);
+	
+	if (a >= 18){
+
+		printf ("Please enter your Heigt (in cm): ");
+		scanf ("%d", &h);
+	
+		if (h >= 150){
+			printf ("Please enter your Educational Attaintment: ");
+			scanf ("\n%c", &EA);
+			
+			if (EA == 'h'){
+				printf ("Congratulations, you are accepted!");
+			}
+			else printf ("Study First");
+		}
+		else printf ("Sleepwell");
+	}
+	else printf ("In a few years...");
+	
+	printf ("\nThank you for considering us!");
+	return 0;
+}
