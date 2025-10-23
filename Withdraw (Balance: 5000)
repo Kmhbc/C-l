@@ -4,7 +4,7 @@ int main (){
 	int l, wb;
 	char b, w;
 	
-	printf("\t\t\t\t\t\t\t\t\tKim's Bank hehe\n\n");
+	printf("\n\n\t\t\t\t\t\t\t\t\tKim's Bank Account hehe\n\n");
 	printf("\t\t\t\tView Balance? Y/N:", b);
 	scanf (" %c", &b);
 	
