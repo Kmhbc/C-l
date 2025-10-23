@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main() {
+    float h, p, OT;
+
+    printf("Enter the number of hours worked this week: ");
+    scanf("%f", &h);
+
+    if (h <= 40) {
+        p = h * 10;
+    } else {
+        OT = h - 40;
+        p = (40 * 10) + (OT * 15);
+    }
+
+    printf("Total weekly wage: $%.2f\n", p);
+
+    return 0;
+}
