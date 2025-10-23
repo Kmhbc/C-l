@@ -17,17 +17,21 @@ int main (){
 			
 		if (w == 'Y' || w == 'y'){
 			printf ("\n\n\t\t\t\tHow much?:", l);
-			scanf("%d", &l);
-		        
-			wb = 5000-l;
-			printf("\n\n\t\t\t\tYour new balance is: Php %d\n\n\n", wb);
-		}	
+			scanf ("%d", &l);
+			if (l >=5001 ){
+				printf("\n\n\t\t\t\tInsufficient Balance\n\n\n");
+			}	   
+			else{
+				wb = 5000-l;
+				printf("\n\n\t\t\t\tYour new balance is: Php %d\n\n\n", wb);
+			}
+		}
 		else if (w == 'N'|| w == 'n'){
 			printf("\n\n\t\t\t\tThank you for using our service!\n\n\n");
 		}	
 		else {
 			printf("\n\n\t\t\t\tinvalid\n");
-		}	
+		}
 	}	
 	else {
 		printf("invalid\n");
