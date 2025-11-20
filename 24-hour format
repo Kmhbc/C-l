@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int main() {
+    int hour, minute;
+    char m; // A or P
+
+    printf("Enter time in 12-hour format (hh:mm A/P): ");
+    scanf("%d:%d %c", &hour, &minute, &m);
+
+    if (m == 'A' || m == 'a') {
+        if (hour == 12)
+            hour = 0; // midnight
+    } 
+    else if (m == 'P' || m == 'p') {
+        if (hour != 12)
+            hour += 12; // add 12 for PM
+    } 
+    else {
+        printf("Invalid input.");
+        return 0;
+    }
+
+    printf("24-hour Format: %02d:%02d", hour, minute);
+
+    return 0;
+}
