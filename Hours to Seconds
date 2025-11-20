@@ -1,0 +1,15 @@
+#include<stdio.h>
+
+int main(){
+  int H,S,Result;
+
+	printf("Enter number of Hours: \n");
+	scanf("%d", &H);
+
+	S=H*3600;
+	Result=S;
+
+	printf("%d hours is equivalent to %d in seconds\n", H, Result);
+return 0;
+
+}
