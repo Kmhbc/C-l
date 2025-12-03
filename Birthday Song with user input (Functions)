@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <string.h>
+
+void birthday (char name[], int age){
+	
+	printf ("\nHappy Birthday To You!\n");
+	printf ("Happy Birthday To You!\n");
+	printf ("Happy Birthday Dear, %s!\n", name);
+	printf ("Happy Birthday To You!\n");
+	printf ("You are %d now!\n", age);
+
+}
+
+int main (){
+	char name [50] ="";
+	int age = 0;
+	
+	printf("Enter name:");
+	fgets(name, sizeof(name), stdin);
+	name[strlen(name) - 1] = '\0';
+	
+	printf("Enter age:");
+	scanf("%d", &age);
+	
+	birthday(name, age);
+	birthday(name, age);
+	birthday(name, age);
+	
+	return 0;
+}
