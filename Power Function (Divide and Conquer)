@@ -1,0 +1,37 @@
+#include <stdio.h>
+
+long long power(long long base, int exp)
+{
+    // Base case
+    if (exp == 0)
+        return 1;
+
+    // Divide step
+    long long half = power(base, exp / 2);
+
+    // Conquer step
+    if (exp % 2 == 0)
+        return half * half;        // if exponent is even
+    else
+        return base * half * half; // if exponent is odd
+}
+
+int main()
+{
+    long long base;
+    int exp;
+
+	printf("POWER FUNCTION\n\n");
+    printf("Enter base and exponent: ");
+    scanf("%lld %d", &base, &exp);
+
+    if (exp < 0)
+    {
+        printf("Negative exponent not supported.\n");
+        return 0;
+    }
+
+    printf("Answer: %lld\n", power(base, exp));
+
+    return 0;
+}
