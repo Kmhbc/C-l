@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <string.h>
+
+int checkPalindrome(char str[], int start, int end) {
+    if (start >= end)   // base case
+        return 1;
+
+    if (str[start] != str[end])
+        return 0;
+
+    return checkPalindrome(str, start + 1, end - 1); // recursive case
+}
+
+int main() {
+    char str[100];
+	
+	printf("PALINDROME CHECKER\n\n");
+    printf("Enter a word: ");
+    scanf("%s", str);
+
+    int len = strlen(str);
+
+    if (checkPalindrome(str, 0, len - 1))
+        printf("Palindrome\n");
+    else
+        printf("Not Palindrome\n");
+
+    return 0;
+}
