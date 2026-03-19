@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Beach {
+    char name[80];
+    char location[50];
+    float rating;
+};
+
+void displayAll(struct Beach b[], int size) {
+    printf("\n%-20s %-25s %-10s\n", "name", "location", "rating");
+    printf("------------------------------------------------------\n");
+    for (int i = 0; i < size; i++) {
+        printf("%-20s %-25s %.1f\n", b[i].name, b[i].location, b[i].rating);
+    }
+}
+
+void sortByName(struct Beach b[], int size) {
+    struct Beach temp;
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (strcmp(b[i].name, b[j].name) > 0) {
+                temp = b[i];
+                b[i] = b[j];
+                b[j] = temp;
+            }
+        }
+    }
+    printf("\nSorted by Name!\n");
+    displayAll(b, size);
+}
+
+void sortByLocation(struct Beach b[], int size) {
+    struct Beach temp;
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (strcmp(b[i].location, b[j].location) > 0) {
+                temp = b[i];
+                b[i] = b[j];
+                b[j] = temp;
+            }
+        }
+    }
+    printf("\nSorted by Location!\n");
+    displayAll(b, size);
+}
+
+void sortByRating(struct Beach b[], int size) {
+    struct Beach temp;
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (b[i].rating < b[j].rating) {
+                temp = b[i];
+                b[i] = b[j];
+                b[j] = temp;
+            }
+        }
+    }
+    printf("\nSorted by Rating (highest to lowest)!\n");
+    displayAll(b, size);
+}
+
+int main() {
+    struct Beach beaches[] = {
+        {"Boracay",      "Aklan",            4.8},
+        {"Nacpan Beach", "El Nido, Palawan",  4.6},
+        {"Alona Beach",  "Bohol",            4.5}
+    };
+
+    int size = 3;
+    int choice;
+
+    printf("======================================================\n");
+    printf("      Welcome to the Beaches of the Philippines  \n");
+    printf("======================================================\n");
+    printf("  Discover the most beautiful shores our islands\n");
+    printf("  have to offer. Explore, sort, and find your next\n");
+    printf("  dream beach destination!\n");
+    printf("======================================================\n");
+
+    do {
+        printf("\nMenu\n");
+        printf("1. display\n");
+        printf("2. sort\n");
+        printf("3. exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                displayAll(beaches, size);
+                break;
+
+            case 2: {
+                int subChoice;
+                printf("\nSort Options:\n");
+                printf("1. Name\n");
+                printf("2. Location\n");
+                printf("3. Rating\n");
+                printf("Enter sort choice: ");
+                scanf("%d", &subChoice);
+
+                switch (subChoice) {
+                    case 1: sortByName(beaches, size);     break;
+                    case 2: sortByLocation(beaches, size); break;
+                    case 3: sortByRating(beaches, size);   break;
+                    default: printf("Invalid choice.\n");
+                }
+                break;
+            }
+
+            case 3:
+                printf("\n======================================================\n");
+                printf("   Thanks for exploring the Beaches of the Philippines!\n");
+                printf("   Until next time! Hanggang sa muli!  ??\n");
+                printf("======================================================\n");
+                break;
+
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+
+    } while (choice != 3);
+
+    return 0;
+}
