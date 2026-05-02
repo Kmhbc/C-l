@@ -1,0 +1,83 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void even(int *arr, int row, int col){
+	
+	printf("\nThe Even values are:");
+	for (int i = 0; i < row; i++){
+		for (int j = 0; j < col; j++){
+			if (*(arr + i*row + j)% 2 == 0)
+			printf("%d ", *(arr + i*row + j));
+		}
+	}	
+}
+
+void sumeven(int *arr,  int row, int col){
+	
+	int sum = 0;
+	
+	printf("\n\nThe Sum of the Even values is: ");
+	for (int i = 0; i < row; i++){
+		for (int j = 0; j < col; j++){
+			if (*(arr + i*row + j) % 2 == 0)
+				sum += *(arr + i*row + j);
+		}
+	} printf("%d", sum);
+}
+
+void odd(int *arr,  int row, int col){
+	
+	printf("\nThe Odd values are:");
+	for (int i = 0; i < row; i++){
+		for (int j = 0; j < col; j++){
+			if (*(arr + i*row + j) % 2 != 0)
+			printf("%d ", *(arr + i*row + j));
+		}
+	}	
+}
+void sumodd(int *arr,  int row, int col){
+	
+	int sum = 0;
+	
+	printf("\nThe Sum of the Odd values is: ");
+	for (int i = 0; i < row; i++){
+		for (int j = 0; j < col; j++){
+			if (*(arr + i*row + j) % 2 != 0)
+				sum += *(arr + i*row + j);
+		}
+	} printf("%d", sum);
+}
+
+int main(){
+	
+	int row, col, *arr;
+	
+	printf("Enter size of Rows: ");
+	scanf("%d", &row);
+	
+	printf("Enter size of Columns: ");
+	scanf("%d", &col);
+	
+	arr=(int *)malloc(row * col * sizeof(int));
+	
+	printf("Enter elements:");
+	for (int i = 0; i < row; i++){
+	    for (int j = 0; j < col; j++){
+	        scanf("%d", (arr + i*row + j));
+	    }
+	}
+	
+	printf("\nMATRIX: \n");
+	for (int i = 0; i < row; i++){
+		for (int j = 0; j < col; j++){
+			printf("%d ", *(arr + i*row + j));
+		}printf("\n");
+	}
+	
+	even(arr,row,col);
+	odd(arr,row,col);
+	sumeven(arr,row,col);
+	sumodd(arr,row,col);
+	
+	free(arr);
+}
