@@ -1,0 +1,146 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct ServiceRecord{
+	char date[80];
+	float serviceCost;
+};
+
+struct Vehicle {
+	char plateNumber[80];
+	char ownerName[80];
+	char serviceType[80];
+	struct ServiceRecord ServiceRec;
+};
+
+void displayServRec(struct Vehicle VecData []){
+	
+	for(int i = 0; i<2; i++){
+		if(VecData[i].ServiceRec.serviceCost > 500){
+			printf("\nVehicle with >500 Service Cost: \n");
+			printf("\nPlate Number: %s", VecData[i].plateNumber);
+			printf("\nOwner Name: %s", VecData[i].ownerName);
+			printf("Service Type: %s", VecData[i].serviceType);	
+			printf("Service Cost: %.2f", VecData[i].ServiceRec.serviceCost);
+		}	
+	}
+	
+}
+
+void fileSaveServRec(struct Vehicle VecData []){
+	
+		FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\service.txt", "a");
+		
+		if(fp == NULL){
+        printf("Error opening file!\n");
+        return;
+    }
+		
+		for(int i = 0; i<2; i++){
+			if(VecData[i].ServiceRec.serviceCost > 500){
+				fputs("\nVehicle with >500 Service Cost: \n", fp);
+				fprintf(fp,"\nPlate Number: %s", VecData[i].plateNumber);
+				fprintf(fp,"\nOwner Name: %s", VecData[i].ownerName);
+				fprintf(fp,"Service Type: %s", VecData[i].serviceType);	
+				fprintf(fp,"Service Cost: %.2f", VecData[i].ServiceRec.serviceCost);
+		}	
+	}
+	fclose(fp);
+}
+
+
+void saveVecData(struct Vehicle VecData []){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\service.txt", "w");
+	
+	if(fp == NULL){
+        printf("Error opening file!\n");
+        return;
+    }
+	
+	for(int i = 0; i<2; i++){
+		fprintf(fp,"\nVehicle No. %d", i +1);
+		fprintf(fp,"\nPlate Number: %s", VecData[i].plateNumber);
+		fprintf(fp,"\nOwner Name: %s", VecData[i].ownerName);
+		fprintf(fp,"Service Type: %s", VecData[i].serviceType);
+	}
+	fclose(fp);
+}
+void readVecData(struct Vehicle VecData []){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\service.txt", "r");
+	
+	if(fp == NULL){
+        printf("Error opening file!\n");
+        return;
+    }
+    
+    char searchPlate[80];
+    int found = 0;
+	
+	printf("\nEnter Plate Number to see records: ");
+	scanf("%79s", searchPlate);
+	
+	for(int i = 0; i<2; i++){
+		if (strcmp(searchPlate, VecData[i].plateNumber) == 0){
+		printf("\nPlate Number: %s", VecData[i].plateNumber);
+		printf("\nOwner Name: %s", VecData[i].ownerName);
+		printf("Service Type: %s", VecData[i].serviceType);	
+		printf("Service Cost: %.2f", VecData[i].ServiceRec.serviceCost);
+		
+		found = 1;
+		break;
+		}
+	}
+	
+	if (found == 0){
+		printf("Plate Number not found!");
+	}
+	
+	fclose(fp);
+}
+
+
+void displayVecData(struct Vehicle VecData []){
+	
+	for(int i = 0; i<2; i++){
+		printf("\nVehicle No. %d", i+1);
+		printf("\nPlate Number: %s", VecData[i].plateNumber);
+		printf("\nOwner Name: %s", VecData[i].ownerName);
+		printf("Service Type: %s", VecData[i].serviceType);
+	}
+}
+
+
+int main(){
+	struct Vehicle VecData[100];
+	
+	for(int i = 0; i<2; i++){
+		printf("\nVehicle No. %d\n", i+1);
+		printf("Enter Plate Number (EX: AQA4508): ");
+		scanf(" %s", &VecData[i].plateNumber);
+		getchar();
+		printf("Enter Owner Name: ");
+		fgets(VecData[i].ownerName, sizeof(VecData[i].ownerName),stdin);
+		printf("Enter Service Type (EX: Change Oil): ");
+		fgets(VecData[i].serviceType, sizeof(VecData[i].serviceType),stdin);
+		printf("Enter date (EX: 05/05/2006): ");
+		scanf(" %s", &VecData[i].ServiceRec.date);
+		printf("Enter Service Cost: ");
+		scanf(" %f", &VecData[i].ServiceRec.serviceCost);
+			
+	}
+	
+	displayVecData(VecData);
+	displayServRec(VecData);
+	
+	saveVecData(VecData);
+	fileSaveServRec(VecData);
+	
+	printf("\nData Saved Successfully!");
+	
+	readVecData(VecData);
+	
+return 0;
+}
