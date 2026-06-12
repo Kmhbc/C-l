@@ -1,0 +1,106 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<ctype.h>
+
+struct Student{
+	char studentID[80];
+	char studentName[80];
+	int prelimGrade;
+};
+
+void NameUpper(struct Student StudInfo[]){
+	
+	for(int i = 0; i<5; i++){
+		for(int j = 0; StudInfo[i].studentName[j] != '\0'; j++){
+			StudInfo[i].studentName[j] = toupper((unsigned char)StudInfo[i].studentName[j]);
+		}
+	};
+}
+void SearchID(struct Student StudInfo[]){
+	
+	char searchID [80];
+	int found = 0;
+	
+	printf("\n\nEnter Student ID to Search: ");
+	scanf("%79s", searchID);
+	
+	for(int i = 0; i<5; i++){
+		if(strcmp(searchID,StudInfo[i].studentID) == 0)	{
+			printf("\nSTUDENT FOUND\n");
+			printf("Student ID: %s\n", StudInfo[i].studentID);
+			printf("Full Name: %s", StudInfo[i].studentName);
+			printf("Prelim Grade: %d", StudInfo[i].prelimGrade);
+		}
+	}
+}
+
+void displayStudInfo(struct Student StudInfo[]){
+	
+	printf("\n===== STUDENT RECORDS =====");
+	for(int i = 0; i<5; i++){
+		printf("\n\nStudent No. %d\n", i+1);
+		printf("Student ID: %s\n", StudInfo[i].studentID);
+		printf("Full Name: %s", StudInfo[i].studentName);
+		printf("Prelim Grade: %d", StudInfo[i].prelimGrade);
+	}
+}
+
+void saveStudInfo(struct Student StudInfo[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\students.txt", "w");
+	
+	fputs("\n===== STUDENT RECORDS =====", fp);
+	for(int i = 0; i<5; i++){
+		fprintf(fp,"\n\nStudent No. %d\n", i+1);
+		fprintf(fp,"Student ID: %s\n", StudInfo[i].studentID);
+		fprintf(fp,"Full Name: %s", StudInfo[i].studentName);
+		fprintf(fp,"Prelim Grade: %d", StudInfo[i].prelimGrade);
+	}
+	fclose(fp);
+}
+
+void compAve(struct Student *ptr){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\students.txt", "a");
+	float ave;
+	int sum;
+	
+	for(int i = 0; i<5; i++){
+		sum += (ptr + i)->prelimGrade;
+	}
+	
+	ave = sum/5;
+	
+	printf("\n\n===== CLASS STATISTICS =====\n");
+	printf("Class Average: %.2f", ave);
+	fprintf(fp, "\n\n===== CLASS STATISTICS =====\n");
+	fprintf(fp, "Class Average: %.2f", ave);
+	
+	fclose(fp);
+	
+}
+
+int main(){
+	struct Student StudInfo[100];
+	struct Student *ptr = &StudInfo[0];
+	
+	for(int i = 0; i<5; i++){
+		printf("\nStudent No. %d\n", i+1);
+		printf("Enter Student ID (EX:2025001): ");
+		scanf(" %s", &StudInfo[i].studentID);
+		getchar();
+		printf("Enter Full Name (EX: Maria Santos): ");
+		fgets(StudInfo[i].studentName, sizeof(StudInfo[i].studentName), stdin);
+		printf("Enter Prelim Grade (EX:89) : ");
+		scanf("%d", &StudInfo[i].prelimGrade);
+	}
+	
+	displayStudInfo(StudInfo);
+	NameUpper(StudInfo);
+	SearchID(StudInfo);
+	saveStudInfo(StudInfo);
+	compAve(ptr);
+	
+return 0;
+}
