@@ -1,0 +1,119 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+struct Payroll{
+	int overtimeHours;
+	float overtimePay;
+};
+struct Employee{
+	char employeeID[80];
+	char employeeName[80];
+	float basicSalary;
+	struct Payroll PayData;
+};
+void displayEmpData(struct Employee EmpData[]){
+	
+	printf("\n===== EMPLOYEE LIST =====");
+	for(int i = 0; i<5; i++){
+		printf("\n\nEmployee %d:", i+1);
+		printf("\nID: %s", EmpData[i].employeeID);
+		printf("\nName: %s", EmpData[i].employeeName);
+		printf("Basic Salary: %.2f", EmpData[i].basicSalary);
+		printf("\nOvertime Hours: %d", EmpData[i].PayData.overtimeHours);
+		printf("\nOvertime Pay: %.2f", EmpData[i].PayData.overtimePay);
+	}
+}
+
+void compSal(struct Employee EmpData[]){
+	
+	float TotalSalary;
+	
+	printf("\n==== HIGH EARNING EMPLOYEES ====\n");
+	for(int i = 0; i<5; i++){
+		TotalSalary = EmpData[i].basicSalary + EmpData[i].PayData.overtimePay;
+		if(TotalSalary > 30000){
+			printf("\n%s", EmpData[i].employeeName);
+			printf("Total Salary: %.2f\n", TotalSalary);
+		}
+	}	
+}
+
+void searchID(struct Employee EmpData[]){
+	
+	char searchID [80];
+	
+	printf("\nEnter Employee ID to search: ");
+	scanf("%79s", searchID);
+	
+	for(int i = 0; i<5; i++){
+		if(strcmp(searchID, EmpData[i].employeeID) == 0){
+				printf("\nName: %s", EmpData[i].employeeName);
+				printf("Basic Salary: %.2f", EmpData[i].basicSalary);
+		}
+	}
+}
+
+void saveEmpData(struct Employee EmpData[]){
+	
+	FILE *fp= fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\payroll.txt", "w");
+	
+	fprintf(fp,"\n===== EMPLOYEE LIST =====");
+	for(int i = 0; i<5; i++){
+		fprintf(fp,"\n\nEmployee %d:", i+1);
+		fprintf(fp,"\nID: %s", EmpData[i].employeeID);
+		fprintf(fp,"\nName: %s", EmpData[i].employeeName);
+		fprintf(fp,"Basic Salary: %.2f", EmpData[i].basicSalary);
+		fprintf(fp,"\nOvertime Hours: %d", EmpData[i].PayData.overtimeHours);
+		fprintf(fp,"\nOvertime Pay: %.2f", EmpData[i].PayData.overtimePay);
+	}
+	fclose(fp);
+}
+
+void findHighest(struct Employee *ptr){
+	
+	FILE *fp= fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\payroll.txt", "a");
+	int highestindex = 0;
+	int highestsalary = ptr[0].basicSalary + ptr[0].PayData.overtimePay;;
+	float totalSalary;
+	
+	for(int i = 0; i<5; i++){
+		totalSalary = ptr[i].basicSalary + ptr[i].PayData.overtimePay;
+		if(totalSalary>highestsalary){
+			highestsalary = totalSalary;
+			highestindex = i;
+		}
+	} fprintf(fp,"\n\nHighest Salary Employee");
+			fprintf(fp,"\nName: %s", ptr[highestindex].employeeName);
+			fprintf(fp,"Salary: %.2f", totalSalary);	
+	
+	fclose(fp);
+}
+
+int main(){
+	struct Employee EmpData[100];
+	struct Employee *ptr = &EmpData[0];
+	
+	for(int i = 0; i<5; i++){
+		printf("\nEmployee %d:\n", i+1);
+		printf("Enter Employee ID (Ex: 1001): ");
+		scanf(" %s", &EmpData[i].employeeID);
+		getchar();
+		printf("Enter Employee Name (Ex: Pedro Santos): ");
+		fgets(EmpData[i].employeeName, sizeof(EmpData[i].employeeName), stdin);
+		printf("Enter Basic Salary (Ex: 25000): ");
+		scanf("%f", &EmpData[i].basicSalary);
+		printf("Enter Overtime Hours: ");
+		scanf("%d", &EmpData[i].PayData.overtimeHours);
+		printf("Enter Overtime Pay: ");
+		scanf("%f", &EmpData[i].PayData.overtimePay);
+	}
+	
+	displayEmpData(EmpData);
+	compSal(EmpData);
+	searchID(EmpData);
+	saveEmpData(EmpData);
+	findHighest(ptr);
+	
+return 0;
+}
