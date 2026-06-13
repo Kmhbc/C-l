@@ -1,0 +1,93 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+struct Book{
+	char bookID[80];
+	char title[80];
+	char author [80];
+};
+
+void displaybookData(struct Book bookData[]){
+	
+	printf("\n==== BOOK LIST ====\n");
+	
+	for(int i = 0; i<5; i++){
+		printf("\nBook %d\n", i+1);
+		printf("Book ID: %s\n", bookData[i].bookID);
+		printf("Book Title: %s", bookData[i].title);
+		printf("Book Author: %s\n",bookData[i].author);
+	}
+}
+
+void searchbookID(struct Book bookData[]){
+	
+	char IDbook[80];
+	
+	printf("Enter Book ID you want to search: ");
+	scanf(" %s", &IDbook);
+	
+	for(int i = 0; i<5; i++){
+		if(strcmp(IDbook,bookData[i].bookID) == 0){
+			printf("\nBOOK FOUND\n\n");
+			printf("Book Title: %s", bookData[i].title);
+			printf("Book Author: %s\n",bookData[i].author);
+		}
+	}
+}
+
+void savebookData(struct Book bookData[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\library.txt", "w");
+	
+	fprintf(fp,"\n==== BOOK LIST ====\n");
+	
+	for(int i = 0; i<5; i++){
+		fprintf(fp,"\nBook %d\n", i+1);
+		fprintf(fp,"Book ID: %s\n", bookData[i].bookID);
+		fprintf(fp,"Book Title: %s", bookData[i].title);
+		fprintf(fp,"Book Author: %s\n",bookData[i].author);
+	}
+	fclose(fp);
+}
+
+void sumbookData(struct Book *ptr){
+	
+	int count = 0;
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\library.txt", "a");
+	
+	for (int i = 0; i<5; i++){
+		count++;	
+	}
+	
+	printf("Total Books Stored: %d", count);
+	fprintf(fp,"Total Books Stored: %d", count);
+	
+	fclose(fp);
+}
+
+int main(){
+	
+	struct Book bookData[100];
+	struct Book *ptr = &bookData[0];
+	
+	for(int i = 0; i<5; i++){
+		printf("\nBook %d\n", i+1);
+		printf("Enter Book ID (Ex:101): ");
+		scanf(" %s", &bookData[i].bookID);
+		getchar();
+		printf("Enter Book Title: ");
+		fgets(bookData[i].title,sizeof(bookData[i].title), stdin);
+		printf("Enter Book Author: ");
+		fgets(bookData[i].author,sizeof(bookData[i].author), stdin);
+	}
+	
+	displaybookData(bookData);
+	printf("Data Saved in the File.\n");
+	searchbookID(bookData);
+	savebookData(bookData);
+	sumbookData(ptr);
+	
+return 0;	
+}
