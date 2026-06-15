@@ -1,0 +1,290 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define SIZE 5
+
+struct FitnessRecord{
+	int hoursTrained;
+	float caloriesBurned;
+};
+
+struct Member{
+	char memberID[20];
+	char memberName[80];
+	char membershipType[20];
+	struct FitnessRecord fr;
+	
+};
+
+void inputfr(struct Member m[]){
+	
+	system ("cls");
+	for (int i = 0; i< SIZE; i++){
+		printf("\nEnter Member ID (ex: G001): ");
+		scanf(" %s", &m[i].memberID);
+		getchar();
+		printf("Enter Member Name (First name, Laste name): ");
+		fgets(m[i].memberName, sizeof(m[i].memberName), stdin);
+		printf("Enter Membership Type (Premium or Standard): ");
+		scanf(" %s", &m[i].membershipType);
+		getchar();
+		printf("Enter Total Hours Trained: ");
+		scanf("%d", &m[i].fr.hoursTrained);
+		printf("Enter Total Calories Burned: ");
+		scanf("%f", &m[i].fr.caloriesBurned);
+	}
+	printf("\nPress ENTER to continue...");
+	getchar();
+}
+
+void displayfr(struct Member m[]){
+	
+	system ("cls");
+	printf("\n==== MEMBER RECORDS ====\n");
+	
+	for (int i = 0; i< SIZE; i++){
+		printf("\n\nMember #%d", i+1);
+		printf("\nMember ID: %s\n", m[i].memberID);
+		printf("Name: %s", m[i].memberName);
+		printf("Membership Type: %s\n", m[i].membershipType);
+		printf("Total Hours Trained: %d\n", m[i].fr.hoursTrained);
+		printf("Total Calories Burned: %.2f", m[i].fr.caloriesBurned);
+	}
+	
+	printf("\nPress ENTER to continue...");
+	getchar();
+}
+
+void hoursTotal(struct Member m[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "a");
+	
+	printf("\n==== FITNESS SUMMARRY ====\n");
+	fprintf(fp,"\n==== FITNESS SUMMARRY ====\n");
+	
+	int sum =0;
+	
+	for(int i = 0; i<SIZE; i++){
+		sum+= m[i].fr.hoursTrained;
+	}
+	
+	printf("\nTotal Hours Trained: %d", sum);
+	fprintf(fp,"\nTotal Hours Trained: %d", sum);
+	
+	fclose(fp);
+}
+
+void aveCal(struct Member m[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "a");
+	
+	int sum = 0;
+	float ave = 0;
+	
+	for(int i = 0; i<SIZE; i++){
+		sum+= m[i].fr.hoursTrained;
+	}
+	
+	ave = sum/SIZE;
+	
+	printf("\nAverage Calories Burned: %d", ave);
+	fprintf(fp,"\nAverage Calories Burned: %d", ave);
+	
+	fclose(fp);
+}
+
+void highestCal(struct Member m[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "a");
+	
+	int highestindex = 0, highestcal = m[0].fr.caloriesBurned;
+	float currenthigh; 
+	
+	for ( int i = 0; i< SIZE; i++){
+		currenthigh = m[i].fr.caloriesBurned;
+		
+		if(currenthigh > highestcal){
+			highestcal = currenthigh;
+			highestindex = i;
+		}
+	}
+	
+	printf("\n\nHighest Calories Burned:\n");
+	printf("\nMember ID: %s\n", m[highestindex].memberID);
+	printf("Name: %s", m[highestindex].memberName);
+	printf("Total Calories Burned: %.2f", m[highestindex].fr.caloriesBurned);
+	
+	fprintf(fp,"\n\nHighest Calories Burned:\n");
+	fprintf(fp,"\nMember ID: %s\n", m[highestindex].memberID);
+	fprintf(fp,"Name: %s", m[highestindex].memberName);
+	fprintf(fp,"Total Calories Burned: %.2f", m[highestindex].fr.caloriesBurned);
+	
+	fclose(fp);
+}
+void lowestCal(struct Member m[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "a");
+	
+	int lowestindex = 0, lowestCal = m[0].fr.caloriesBurned;
+	float currentlow; 
+	
+	for ( int i = 0; i< SIZE; i++){
+		currentlow = m[i].fr.caloriesBurned;
+		
+		if(currentlow < lowestCal){
+			lowestCal = currentlow;
+			lowestindex = i;
+		}
+	}
+	
+	printf("\n\nLowest Calories Burned:\n");
+	printf("\nMember ID: %s\n", m[lowestindex].memberID);
+	printf("Name: %s", m[lowestindex].memberName);
+	printf("Total Calories Burned: %.2f", m[lowestindex].fr.caloriesBurned);
+	
+	fprintf(fp,"\n\nLowest Calories Burned:\n");
+	fprintf(fp,"\nMember ID: %s\n", m[lowestindex].memberID);
+	fprintf(fp,"Name: %s", m[lowestindex].memberName);
+	fprintf(fp,"Total Calories Burned: %.2f", m[lowestindex].fr.caloriesBurned);
+
+	fclose(fp);
+}
+void saveMem(struct Member m[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "w");
+	
+	fprintf(fp,"\n==== MEMBER RECORDS ====\n");
+	
+	for (int i = 0; i< SIZE; i++){
+		fprintf(fp,"\n\nMember #%d", i+1);
+		fprintf(fp,"\nMember ID: %s\n", m[i].memberID);
+		fprintf(fp,"Name: %s", m[i].memberName);
+		fprintf(fp,"Membership Type: %s\n", m[i].membershipType);
+		fprintf(fp,"Total Hours Trained: %d\n", m[i].fr.hoursTrained);
+		fprintf(fp,"Total Calories Burned: %.2f", m[i].fr.caloriesBurned);
+	}
+	fclose(fp);
+	printf("\nData successfully saved!");
+}
+	
+void readMem(struct Member m[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "r");
+	
+	char line [200];
+	
+	printf("\nFILE RECORDS:\n");
+	
+	while(fgets(line, sizeof(line),fp) != NULL){
+			printf(" %s", line);
+	}
+	
+	fclose(fp);
+}
+
+void searchMem(struct Member m[]){
+	
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\gym.txt", "r");
+	
+	system ("cls");
+	
+	char searchID [20];
+	int found = 0;
+	
+	printf("Enter Member ID: ");
+	scanf("%19s", searchID);
+	
+	for (int i =0; i<SIZE; i++){
+		if(strcmp(searchID, m[i].memberID) == 0){
+			printf("\nFOUND!\n");
+			printf("Name: %s", m[i].memberName);
+			printf("Membership Type: %s\n", m[i].membershipType);
+			printf("Total Hours Trained: %d\n", m[i].fr.hoursTrained);
+			printf("Total Calories Burned: %.2f", m[i].fr.caloriesBurned);
+		}
+	}
+	printf("\nPress ENTER to continue...");
+	
+	while(getchar() != '\n');
+	getchar();	
+}
+int main(){
+	struct Member m[100];
+	int choice;
+	char exit;
+	
+	
+	do{
+		system ("cls");
+		printf("\n==== GYM MEMBERSHIP SYSTEM ====\n");
+		printf("1. Enter New Member(s)\n");
+		printf("2. Display All Mmebers\n");
+		printf("3. Fitness Summary\n");
+		printf("4. Save to File\n");
+		printf("5. Read from File\n");
+		printf("6. Search from File\n");
+		printf("7. Exit\n");
+		printf("Choice: ");
+		scanf("%d", &choice);
+		getchar();
+		
+		switch(choice){
+			
+			case 1:
+				inputfr(m);
+			break;
+			
+			case 2:
+				displayfr(m);
+			break;
+			
+			case 3:
+				system ("cls");
+				
+				hoursTotal(m);
+				aveCal(m);
+				highestCal(m);
+				lowestCal(m);
+				
+				printf("\nPress ENTER to continue...");
+				
+				getchar();
+			break;	
+			
+			case 4:
+				system ("cls");
+				saveMem(m);
+				
+				printf("\nPress ENTER to continue...");
+				
+				getchar();
+			break;
+			
+			case 5: 
+				system("cls");
+				readMem(m);
+				
+				printf("\nPress ENTER to continue...");
+				
+				getchar();
+			break;
+			
+			case 6:
+				searchMem(m);
+			break;
+			
+			case 7:
+				printf("Are you sure you want to exit? (Y or N): ");
+				scanf(" %s", &exit);
+				if(exit == 'Y' || exit == 'y'){
+					return 1;
+				}
+			break;
+	}
+		
+	
+	}while(exit != 'Y' || exit != 'y');
+return 0;
+}
