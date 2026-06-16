@@ -1,0 +1,284 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define SIZE 5
+
+struct OrderInfo{
+	char quantity[20];
+	float totalAmount;
+};
+
+struct Customer{
+	char customerID[20];
+	char customerName[80];
+	char productOrdered[80];
+	struct OrderInfo r;
+};
+
+void displayc(struct Customer c[]){
+	
+	system("cls");
+	
+	printf("\n==== CUSTOMER LIST ====");
+	for(int i  = 0; i<SIZE; i++){
+		printf("\n\nCustomer #%d\n", i+1);
+		printf("Customer ID: %s\n", c[i].customerID);
+		printf("Customer Name: %s", c[i].customerName);
+		printf("Product Ordered: %s", c[i].productOrdered);
+		printf("Product Quantity: %s\n", c[i].r.quantity);
+		printf("Total Amount: %.2f",c[i].r.totalAmount);
+	}
+	
+	printf("\n\nPlease ENTER to continue...");
+	
+	getchar();
+	
+}
+
+void inputc(struct Customer c[]){
+	
+	system("cls");
+	
+	for(int i  = 0; i<SIZE; i++){
+		printf("\n\nCustomer #%d\n", i+1);
+		printf("Enter Customer ID(ex: C001): ");
+		scanf(" %s", &c[i].customerID);
+		getchar();
+		printf("Enter Customer Name(First name, Last name): ");
+		fgets(c[i].customerName, sizeof(c[i].customerName), stdin);
+		printf("Enter Product Ordered: ");
+		fgets(c[i].productOrdered, sizeof(c[i].productOrdered), stdin);
+		printf("Enter Product Quantity: ");
+		scanf(" %s", &c[i].r.quantity);
+		getchar();
+		printf("Enter Total Amount: ");
+		scanf("%f", &c[i].r.totalAmount);
+	}
+	
+	printf("\n\nPlease ENTER to continue...");
+}
+
+void summc(struct Customer c[]){
+	
+	printf("\n\n==== SALES SUMMARY ====\n");
+	
+	int sum = 0, highesti= 0, highesto = c[0].r.totalAmount;
+	int lowesti= 0, lowesto = c[0].r.totalAmount;
+	int currentlow, currenthigh;
+	float ave;
+	
+	for(int i  = 0; i<SIZE; i++){
+		sum += c[i].r.totalAmount;
+	}
+	
+	ave = sum/SIZE;
+	
+	printf("\n\nTotal Sales: %d\n", sum);
+	printf("Average Order: %.2f\n\n", ave);
+	
+	for(int i  = 0; i<SIZE; i++){
+		currenthigh = c[i].r.totalAmount;
+		if(highesto < currenthigh){
+			highesto = currenthigh;
+			highesti = i;
+		}
+	}
+	
+	printf("Highest Order:\n");
+	printf("Customer ID: %s\n", c[highesti].customerID);
+	printf("Total Amount: %.2f",c[highesti].r.totalAmount);
+	
+	for(int i  = 0; i<SIZE; i++){
+		currentlow = c[i].r.totalAmount;
+		if(lowesto > currentlow){
+			lowesto = currentlow;
+			lowesti = i;
+		}
+	}
+	
+	printf("\n\nLowest Order:\n");
+	printf("Customer ID: %s\n", c[lowesti].customerID);
+	printf("Total Amount: %.2f",c[lowesti].r.totalAmount);
+
+	printf("\n\nPlease ENTER to continue...");
+}
+
+void savec(struct Customer c[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\orders.txt", "w");
+	
+	fprintf(fp,"\n==== CUSTOMER LIST ====");
+	for(int i  = 0; i<SIZE; i++){
+		fprintf(fp,"\n\nCustomer #%d\n", i+1);
+		fprintf(fp,"Customer ID: %s\n", c[i].customerID);
+		fprintf(fp,"Customer Name: %s", c[i].customerName);
+		fprintf(fp,"Product Ordered: %s", c[i].productOrdered);
+		fprintf(fp,"Product Quantity: %s\n", c[i].r.quantity);
+		fprintf(fp,"Total Amount: %.2f",c[i].r.totalAmount);
+	}
+	
+	fclose(fp);
+}
+
+void savesummc(struct Customer c[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\orders.txt", "a");
+	
+	fprintf(fp,"\n\n==== SALES SUMMARY ====\n");
+	
+	int sum = 0, highesti= 0, highesto = c[0].r.totalAmount;
+	int lowesti= 0, lowesto = c[0].r.totalAmount;
+	int currentlow, currenthigh;
+	float ave;
+	
+	for(int i  = 0; i<SIZE; i++){
+		sum += c[i].r.totalAmount;
+	}
+	
+	ave = sum/SIZE;
+	
+	fprintf(fp,"\n\nTotal Sales: %d\n", sum);
+	fprintf(fp,"Average Order: %.2f\n\n", ave);
+	
+	for(int i  = 0; i<SIZE; i++){
+		currenthigh = c[i].r.totalAmount;
+		if(highesto < currenthigh){
+			highesto = currenthigh;
+			highesti = i;
+		}
+	}
+	
+	fprintf(fp,"Highest Order:\n");
+	fprintf(fp,"Customer ID: %s\n", c[highesti].customerID);
+	fprintf(fp,"Total Amount: %.2f",c[highesti].r.totalAmount);
+	
+	for(int i  = 0; i<SIZE; i++){
+		currentlow = c[i].r.totalAmount;
+		if(lowesto > currentlow){
+			lowesto = currentlow;
+			lowesti = i;
+		}
+	}
+	
+	fprintf(fp,"\n\nLowest Order:\n");
+	fprintf(fp,"Customer ID: %s\n", c[lowesti].customerID);
+	fprintf(fp,"Total Amount: %.2f",c[lowesti].r.totalAmount);
+
+	fclose(fp);
+}
+
+void readc(struct Customer c[]){
+	
+	FILE *fp = fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\orders.txt", "r");
+	
+	char line [200];
+	
+	for(int i  = 0; i<SIZE; i++){
+		while(fgets(line, sizeof(line), fp) != NULL){
+			printf(" %s", line);
+		}
+	}
+	fclose(fp);
+}
+
+void searchc(struct Customer c[]){
+	
+	system("cls");
+	int found = 0;
+	char searchID[20];
+	
+	printf("\nEnter Customer ID: ");
+	scanf("%19s", searchID);
+	
+	printf("\nCUSTOMER FOUND!\n");
+	
+	for(int i  = 0; i<SIZE; i++){
+		if(strcmp(searchID, c[i].customerID) == 0){
+			printf("Customer Name: %s", c[i].customerName);
+			printf("Product Ordered: %s", c[i].productOrdered);
+			printf("Product Quantity: %s\n", c[i].r.quantity);
+			printf("Total Amount: %.2f",c[i].r.totalAmount);
+			
+			found = 1;
+			break;
+		}
+	}
+	
+	if (found == 0){
+		printf("\nCUSTOMER NOT FOUND!\n");
+	}
+	
+	getchar();
+}
+int main(){
+	struct Customer c[100];
+	int choice;
+	char exit;
+	
+	do{
+		system("cls");
+		printf("\n\n==== ONLINE SHOPPING SYSTEM ====\n");
+		printf("What do you want to do?\n");
+		printf("1. Enter 5 Customers\n");
+		printf("2. Display All Customers\n");
+		printf("3. Display Sales Summary\n");
+		printf("4. Save All Data to Files\n");
+		printf("5. Read All Data from Files\n");
+		printf("6. Search by Customer ID\n");
+		printf("7. Exit\n");
+		printf("Choice: ");
+		scanf("%d", &choice);
+		
+		switch(choice){
+			
+			case 1:
+				inputc(c);
+			break;
+			
+			case 2:
+				displayc(c);
+			break;
+			
+			case 3:
+				system("cls");
+				summc(c);
+				getchar();
+			break;
+			
+			case 4:
+				system("cls");
+				savec(c);
+				savesummc(c);
+				printf("\nData successfully Saved in File!");
+				printf("\n\nPlease ENTER to continue...");
+				getchar();
+			break;
+			
+			case 5:
+				system("cls");
+				readc(c);
+				printf("\n\nPlease ENTER to continue...");
+				getchar();
+			break;
+			
+			case 6:
+				searchc(c);
+				printf("\n\nPlease ENTER to continue...");
+			break;
+			
+			case 7:
+				printf("Are you sure you want to exit? (Y or N): ");
+				scanf(" %s", &exit);
+				
+				if(exit == 'Y' || exit == 'y'){
+					printf("\nThank you for using our program!\n");
+				}
+		}
+		
+		getchar();
+	}while(exit != 'Y'|| exit !='y');
+
+return 0;	
+}
+
