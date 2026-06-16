@@ -1,0 +1,289 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define SIZE 5
+
+struct FlightInfo{
+	char flightNumber[20];
+	float ticketCost;
+};
+
+struct Passenger {
+	char passengerID[20];
+	char passengerName[80];
+	char destination[80];
+	struct FlightInfo f;
+};
+
+void displayp(struct Passenger p[]){
+	
+	system("cls");
+	
+	printf("\n==== PASSENGER LIST ====\n");
+	
+	for (int i = 0; i<SIZE; i++){
+		printf("\n\nPassenger #%d\n", i+1);
+		printf("Passenger ID: %s\n", p[i].passengerID);
+		printf("Passenger Name: %s", p[i].passengerName);
+		printf("Destination: %s", p[i].destination);
+		printf("Flight Number: %s\n", p[i].f.flightNumber);
+		printf("Ticket Cost: %.2f", p[i].f.ticketCost);
+	}
+	
+	printf("\n\nPress ENTER to continue...");
+	getchar();
+}
+
+void inputp(struct Passenger p[]){
+	
+	system("cls");
+	
+	printf("Enter Passenger Data:\n");
+	
+	for (int i = 0; i<SIZE; i++){
+		printf("\nPassenger #%d\n", i+1);
+		printf("Enter Passenger ID (ex: P001): ");
+		scanf(" %s", &p[i].passengerID);
+		getchar();
+		printf("Enter Passenger Name (First name, Last name): ");
+		fgets(p[i].passengerName,sizeof(p[i].passengerName), stdin);
+		printf("Enter Destination: ");
+		fgets(p[i].destination,sizeof(p[i].destination), stdin);
+		printf("Enter Flight Number (ex: 001): ");
+		scanf(" %s", &p[i].f.flightNumber);
+		printf("Enter Ticket Cost (ex: 4000): ");
+		scanf("%f", &p[i].f.ticketCost);
+	}
+	
+	printf("\n\nPress ENTER to continue...");
+}
+
+void summp(struct Passenger p[]){
+	
+	printf("\n==== FLIGHT SUMMARY ====\n");
+	
+	int sum = 0, highestindex = 0, highestcost = p[0].f.ticketCost;
+	int lowestindex = 0, lowestcost = p[0].f.ticketCost;
+	int currenthigh, currentlow;
+	float ave = 0;
+	
+	for (int i = 0; i<SIZE; i++){
+		sum += p[i].f.ticketCost;	
+	}
+	ave = sum/ SIZE;
+	
+	printf("\nTotal Ticket Cost: %d", sum);
+	printf("\nAverage Ticket Cost: %.2f", ave);
+	
+	for (int i = 0; i<SIZE; i++){
+		currenthigh = p[i].f.ticketCost;
+		if(highestcost > currenthigh){
+			highestcost = currenthigh;
+			highestindex = i;
+		}
+	}
+	printf("\n\nHighest Ticket Cost:\n");
+	printf("Passenger ID: %s\n", p[highestindex].passengerID);
+	printf("Passenger Name: %s", p[highestindex].passengerName);
+	printf("Ticket Cost: %.2f", p[highestindex].f.ticketCost);
+	
+	for (int i = 0; i<SIZE; i++){
+		currentlow = p[i].f.ticketCost;
+		if(lowestcost < currentlow){
+			lowestcost = currentlow;
+			lowestindex = i;
+		}
+	}
+	printf("\n\nLowest Ticket Cost:\n");
+	printf("Passenger ID: %s\n", p[lowestindex].passengerID);
+	printf("Passenger Name: %s", p[lowestindex].passengerName);
+	printf("Ticket Cost: %.2f", p[lowestindex].f.ticketCost);
+	
+	printf("\n\nPress ENTER to continue...");
+}
+
+void savep(struct Passenger p[]){
+	
+	FILE *fp= fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\flights.txt", "w");
+	
+	fprintf(fp,"\n==== PASSENGER LIST ====\n");
+	
+	for (int i = 0; i<SIZE; i++){
+		fprintf(fp,"\n\nPassenger #%d\n", i+1);
+		fprintf(fp,"Passenger ID: %s\n", p[i].passengerID);
+		fprintf(fp,"Passenger Name: %s", p[i].passengerName);
+		fprintf(fp,"Destination: %s", p[i].destination);
+		fprintf(fp,"Flight Number: %s\n", p[i].f.flightNumber);
+		fprintf(fp,"Ticket Cost: %.2f", p[i].f.ticketCost);
+	}
+	
+	fclose(fp);
+}
+
+void savesummp(struct Passenger p[]){
+	
+	FILE *fp= fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\flights.txt", "a");
+	
+	fprintf(fp,"\n==== FLIGHT SUMMARY ====\n");
+	
+	int sum = 0, highestindex = 0, highestcost = p[0].f.ticketCost;
+	int lowestindex = 0, lowestcost = p[0].f.ticketCost;
+	int currenthigh, currentlow;
+	float ave = 0;
+	
+	for (int i = 0; i<SIZE; i++){
+		sum += p[i].f.ticketCost;	
+	}
+	ave = sum/ SIZE;
+	
+	fprintf(fp,"\nTotal Ticket Cost: %d", sum);
+	fprintf(fp,"\nAverage Ticket Cost: %.2f", ave);
+	
+	for (int i = 0; i<SIZE; i++){
+		currenthigh = p[0].f.ticketCost;
+		if(highestcost > currenthigh){
+			highestcost = currenthigh;
+			highestindex = i;
+		}
+	}
+	fprintf(fp,"\n\nHighest Ticket Cost:\n");
+	fprintf(fp,"Passenger ID: %s\n", p[highestindex].passengerID);
+	fprintf(fp,"Passenger Name: %s", p[highestindex].passengerName);
+	fprintf(fp,"Ticket Cost: %.2f", p[highestindex].f.ticketCost);
+	
+	for (int i = 0; i<SIZE; i++){
+		currentlow = p[0].f.ticketCost;
+		if(lowestcost < currentlow){
+			lowestcost = currentlow;
+			lowestindex = i;
+		}
+	}
+	fprintf(fp,"\n\nLowest Ticket Cost:\n");
+	fprintf(fp,"Passenger ID: %s\n", p[lowestindex].passengerID);
+	fprintf(fp,"Passenger Name: %s", p[lowestindex].passengerName);
+	fprintf(fp,"Ticket Cost: %.2f", p[lowestindex].f.ticketCost);
+	
+	fclose(fp);
+}
+
+void readp(struct Passenger p[]){
+	
+	FILE *fp= fopen("D:\\COMPROG\\FILES FOR FILE HANDLING\\flights.txt", "r");
+	
+	char line[200];
+	
+	for(int i = 0; i<SIZE; i++){
+		while(fgets(line, sizeof(line), fp) != NULL){
+			printf(" %s", line);
+		}
+	}
+	
+	fclose(fp);
+}
+
+void searchp(struct Passenger p[]){
+	
+	system("cls");
+	
+	int found = 0;
+	char searchID[20];
+	
+	printf("Enter Passenger ID to Search: ");
+	scanf("%19s", searchID);
+	
+	
+	for (int i = 0; i<SIZE; i++){
+		if(strcmp(searchID,p[i].passengerID) == 0){
+			printf("\n FOUND!\n");
+			printf("Passenger ID: %s\n", p[i].passengerID);
+			printf("Passenger Name: %s", p[i].passengerName);
+			printf("Destination: %s", p[i].destination);
+			printf("Flight Number: %s\n", p[i].f.flightNumber);
+			printf("Ticket Cost: %.2f", p[i].f.ticketCost);
+			
+			found = 1;
+			break;
+		}
+	}
+	
+	if (found ==0){
+		printf("\n\nNO PASSENGER FOUND!\n");
+	}	
+	
+	printf("\n\nPress ENTER to continue...");
+	getchar();
+}
+int main(){
+	struct Passenger p[100];
+	int choice;
+	char exit;
+	
+	do{
+		system("cls");
+		printf("\n\n==== AIRLINE BOOKING SYSTEM ====\n");
+		printf("What do you want to do?\n");
+		printf("1. Enter 5 Passengers\n");
+		printf("2. Display All Passengers\n");	
+		printf("3. Flight Summary\n");
+		printf("4. Save All Records\n");
+		printf("5. Read All Records from File\n");	
+		printf("6. Search Record\n");	
+		printf("7.Exit\n");	
+		printf("Choice: ");
+		scanf("%d", &choice);
+		
+		switch(choice){
+			
+			case 1:
+				inputp(p);
+			break;
+			
+			case 2:
+				displayp(p);
+			break;
+			
+			case 3:
+				system("cls");
+				summp(p);
+				getchar();
+			break;
+			
+			case 4:
+				system("cls");
+				savep(p);
+				savesummp(p);
+				printf("Data Saved Successfully!\n");
+				printf("\n\nPress ENTER to continue...");
+				getchar();
+			break;
+			
+			case 5:
+				system("cls");
+				printf("Data Reads from file: \n");
+				readp(p);
+				printf("\n\nPress ENTER to continue...");
+				getchar();
+			break;
+			
+			case 6:
+				searchp(p);
+			break;
+			
+			case 7:
+				printf("\nAre you sure you want to Exit? (Y or N): ");
+				scanf(" %s", &exit);
+				
+				if(exit == 'y' || exit == 'Y'){
+					printf("\nThank You for Using our Program!\n");
+					return 1;
+				}		
+				break;
+		}
+		
+	getchar();	
+	}while(exit !='Y'||exit !='y');
+	
+	
+	return 0;
+}
